@@ -4,19 +4,18 @@
  */
 
 $(document).ready(function(){
-    var count=0;
+
+    var items = new Array();
     
     $("#button").click(function(){
-        var toAdd = $("textarea[name=insertItem]").val();
-        var user = $("input[name=userItem]").val();
+        var comment = $("textarea[name=insertItem]").val();
+        var name = $("input[name=userItem]").val();
         if(toAdd !== "" && user!==""){
-            $(".list").prepend("<div id='item"+count+"' class='item'></div>");
-            $("#item"+count).append("<div class='user'>Escrito por: "+user+"</div>");
-            $("#item"+count).append("<div class='comment'>"+toAdd+"</div>");
-            $("#item"+count).append("<button class='close'>&times;</button>");
-            $("#item"+count).css('visibility','visible').hide().fadeIn('slow');
-            $("textarea[name=insertItem]").val("");
-            count++;
+            var newComment = new Item(items.length, name, comment);
+            newComment.render();
+            newComment.addToJSON();
+            items.push(newComment);
+            console.log(items.length);
         }
     });
     
@@ -27,46 +26,41 @@ $(document).ready(function(){
     $(document).bind('submit', function (event) {
         return false;
     });
-});
+    
+    setInterval(function(){
 
+        $.getJSON("data/data.json", loadData);
 
-/*
- * 
- * 
-$sql = "SELECT ID, POBLACION, NUMVISITAS FROM VISITAS_CENTROS";
- 
-$resulset = mysql_query($sql, $_SESSION["idBD"])
- 
-$arr = array();
-while ($obj = mysql_fetch_object($resulset)) {
-    $arr[] = array('ID' => $obj->ID,
-                   'P' => utf8_encode($obj->POBLACION),
-                   'NV' => $obj->NUMVISITAS,
-        );
-}
-echo '' . json_encode($arr) . '';
- * 
- * 
- * 
- * 
- * 
- * 
-$.ajax({
-        type: "POST",
-        url:"getData.php",
-        async: true,
-        success: function(datos){
-            var dataJson = eval(datos);
-             
-            for(var i in dataJson){
-                alert(dataJson[i].ID + " _ " + dataJson[i].P + " _ " + dataJson[i].NV);
+        function loadData(data){
+            for(var i=items.length; i<data.length; i++){
+                var aux = new Item(data[i].id, data[i].name, data[i].comment);
+                aux.render();
+                items.push(aux);
             }
-             
-        },
-        error: function (obj, error, objError){
-            //avisar que ocurrió un error
         }
+
+    },1000);
 });
- * 
- * 
- */
+
+
+// CLASS ITEM
+function Item(id, name, comment){
+    this.name = name;
+    this.coment = comment;
+    this.id = id;
+}
+
+// METHOD OF ITEM
+Item.prototype.render = function(){
+    $(".list").prepend("<div id='item"+this.id+"' class='item'></div>");
+    $("#item"+this.id).append("<div class='user'>Escrito por: "+this.name+"</div>");
+    $("#item"+this.id).append("<div class='comment'>"+this.coment+"</div>");
+    $("#item"+this.id).append("<button class='close'>&times;</button>");
+    $("#item"+this.id).css('visibility','visible').hide().fadeIn('slow');
+    $("textarea[name=insertItem]").val("");
+};
+
+Item.prototype.addToJSON = function(){
+    
+};
+
