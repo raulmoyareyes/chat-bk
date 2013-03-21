@@ -1,0 +1,84 @@
+/* 
+    Document   : css
+    Created on : 17-mar-2013, 19:18:46
+    Author     : dev-linux
+    Description:
+        Purpose of the stylesheet follows.
+*/
+body{
+    font-family:garamond;
+}
+
+form {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+textarea, input{
+    height: 45px;
+    width: 300px;
+    border-radius: 5px;
+    border: 2px solid #eee;
+    padding: 5px;
+    resize: none;
+    overflow: hidden;
+    outline: none;
+    margin-bottom: 10px;
+    font-family:Helvetica;
+}
+
+textarea:focus, input:focus {
+    border: 2px solid #777; /*#ae5;*/
+}
+
+input {
+    display: block;
+    height: 20px;
+    width: 300px;
+}
+
+#button{
+    display: inline-block;
+    background-color:#cc0000;
+    font-family:Helvetica;
+    font-weight:bold;
+    color:#ffffff;
+    border-radius: 5px;
+    text-align:center;
+    margin-bottom: 16px;
+    padding: 19px 20px;
+    cursor: pointer;
+}
+
+.list {
+    font-family:Helvetica;
+    width: 408px;
+    margin-top: 10px;
+}
+
+.item {
+    border: 1px solid #cc0000;
+    color:#cc0000;
+    margin-top: 10px;
+    border-radius: 5px;
+    padding: 5px;
+    visibility: hidden;
+}
+
+.comment {
+    width: 380px;
+    display: inline-block;
+} 
+
+.close{
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.user{
+    color:#999;
+}
