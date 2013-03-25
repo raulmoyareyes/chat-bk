@@ -1,10 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
     <head>
-        <title></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>ChatBK</title>
+        <link rel="stylesheet" type="text/css" href="css/main.css"/>
     </head>
     <body>
-        <div>TODO write content</div>
+        <h2>ChatBK</h2>
+        <form name="checkListForm" method="POST">
+            <input name="userItem" placeholder="Escribe tu nombre...">
+            <textarea rows="4" cols="50" name="insertItem" placeholder="Escribe tu comentario..."></textarea>
+        </form>
+        <div id="button">Enviar</div>
+        <br/>
+        <div class="list"></div>
+        
+        <!-- Libs -->
+        
+        <script src="js/json2.js"></script>
+        <script src="js/jquery.js"></script>
+        <script src="js/underscore.js"></script>
+        <script src="js/backbone.js"></script>
+        <script src="main.js"></script>
+
+        <!-- Templates -->
+
+        <script type="text/template" id="item-template">
+            <div class="view">
+            <input class="toggle" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
+            <label><%- title %></label>
+            <a class="destroy"></a>
+            </div>
+            <input class="edit" type="text" value="<%- title %>" />
+        </script>
+
+        <script type="text/template" id="stats-template">
+            <% if (done) { %>
+            <a id="clear-completed">Clear <%= done %> completed <%= done == 1 ? 'item' : 'items' %></a>
+            <% } %>
+            <div class="todo-count"><b><%= remaining %></b> <%= remaining == 1 ? 'item' : 'items' %> left</div>
+        </script>
+
     </body>
 </html>
