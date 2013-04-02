@@ -6,6 +6,7 @@
     </head>
     <body>
         <h2>ChatBK</h2>
+        
         <form name="checkListForm" method="POST">
             <input name="userItem" placeholder="Escribe tu nombre...">
             <textarea rows="4" cols="50" name="insertItem" placeholder="Escribe tu comentario..."></textarea>
@@ -20,7 +21,7 @@
         <script src="js/jquery.js"></script>
         <script src="js/underscore.js"></script>
         <script src="js/backbone.js"></script>
-        <script src="main.js"></script>
+        <script src="js/main.js"></script>
 
         <!-- Templates -->
 
@@ -31,13 +32,6 @@
             <a class="destroy"></a>
             </div>
             <input class="edit" type="text" value="<%- title %>" />
-        </script>
-
-        <script type="text/template" id="stats-template">
-            <% if (done) { %>
-            <a id="clear-completed">Clear <%= done %> completed <%= done == 1 ? 'item' : 'items' %></a>
-            <% } %>
-            <div class="todo-count"><b><%= remaining %></b> <%= remaining == 1 ? 'item' : 'items' %> left</div>
         </script>
 
     </body>
