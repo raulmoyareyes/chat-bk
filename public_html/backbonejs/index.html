@@ -6,17 +6,26 @@
     </head>
     <body>
         <h2>ChatBK</h2>
-        
-        <form name="checkListForm" method="POST">
-            <input name="userItem" placeholder="Escribe tu nombre...">
-            <textarea rows="4" cols="50" name="insertItem" placeholder="Escribe tu comentario..."></textarea>
-        </form>
-        <div id="button">Enviar</div>
-        <br/>
-        <div class="list"></div>
-        
+        <div id="app">
+            
+            <form name="checkListForm" method="POST">
+                <input name="userItem" placeholder="Escribe tu nombre...">
+                <textarea rows="4" cols="50" name="insertItem" placeholder="Escribe tu comentario..."></textarea>
+            </form>
+            <div id="button">Enviar</div>
+            <br/>
+            
+            <div id="footer">
+                <a id="clear-completed">No hay comentarios</a>
+                <div id="todo-count"></div>
+            </div>
+            
+            <ul id="comment-list"></ul>
+            
+        </div>
+
         <!-- Libs -->
-        
+
         <script src="js/json2.js"></script>
         <script src="js/jquery.js"></script>
         <script src="js/underscore.js"></script>
@@ -26,12 +35,11 @@
         <!-- Templates -->
 
         <script type="text/template" id="item-template">
-            <div class="view">
-            <input class="toggle" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
-            <label><%- title %></label>
-            <a class="destroy"></a>
-            </div>
-            <input class="edit" type="text" value="<%- title %>" />
+            <div>hola</div>
+        </script>
+
+        <script type="text/template" id="stats-template">
+            <div class="todo-count">Numero de comentarios: <%= nComments %></div>
         </script>
 
     </body>
