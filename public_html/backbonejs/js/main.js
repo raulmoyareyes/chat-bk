@@ -20,6 +20,9 @@ var Item = Backbone.Model.extend({
             name: "anonymous",
             comment: "none"
         };
+    },
+    validate: function(attributes){
+        if(attributes.name === ""){return "Nombre vacío";}
     }
 });
 
@@ -46,7 +49,8 @@ var cItems = new CollectionItems;
 
 // vista para cada comentario
 var Comment = Backbone.View.extend({
-    tagName: "li",
+    tagName: "div",
+    className: "item",
     // Asignamos el template a nuestra vista
     template: _.template($('#item-template').html()),
     initialize: function() {
@@ -65,7 +69,9 @@ var Comment = Backbone.View.extend({
     render: function() {
         // Añado el html del template, al que hay que pasarle un objeto en 
         // Json. Le paso el modelo que pertenece a esta vista.
+        this.$el.hide();
         this.$el.html(this.template(this.model.toJSON()));
+        this.$el.fadeIn('slow');
         return this;
     },
     clear: function() {
@@ -88,29 +94,25 @@ var AppView = Backbone.View.extend({
         // Manejadores para los eventos producidos por la colección
         this.listenTo(cItems, 'add', this.added);
         this.listenTo(cItems, 'all', this.render);
-        
-        this.footer = this.$("#footer");
-        //this.render();
     },
     render: function() {
-        this.footer.show();
-        this.footer.html(this.statsTemplate({nComments: "1"}));
+        this.$("#footer").html(this.statsTemplate({nComments: cItems.length}));
         return this;
     },
-    //removed: function() {
-    //
-    //},
     // Al crear un nuevo elemento en cItems llama al metodo add y se crea una 
     // vista para el comentario
     added: function(item) {
         var vComment = new Comment({model: item});
-        this.$("#comment-list").append(vComment.render().el);
+        this.$("#comment-list").prepend(vComment.render().el);
     },
     events: {
-        // añadir el evento para al hacer click crear un comentario
+        // Añado el evento para que al hacer click crear un comentario
+        "click #button": "createComment"
     },
     createComment: function(){
-        // aqui añadir un item a cItems
+        // Añado items a la colección cada vez que hago click en button
+        cItems.add({name: this.$("#userItem").val(), comment: this.$("#insertItem").val()});
+        this.$("#insertItem").val("");
     }
 });
 
@@ -119,5 +121,11 @@ var AppView = Backbone.View.extend({
  */
 
 var app = new AppView();
+
+cItems.add({name: this.$("#userItem").val(), comment: this.$("#insertItem").val()});
+
+$.getJSON("data/data.json", function(data){
+    
+});
 
 });

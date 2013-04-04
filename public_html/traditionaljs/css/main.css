@@ -50,7 +50,7 @@ input {
     cursor: pointer;
 }
 
-.list {
+#comment-list{
     font-family:Helvetica;
     width: 408px;
     margin-top: 10px;

@@ -50,7 +50,7 @@ input {
     cursor: pointer;
 }
 
-.list {
+#comment-list {
     font-family:Helvetica;
     width: 408px;
     margin-top: 10px;
@@ -62,7 +62,6 @@ input {
     margin-top: 10px;
     border-radius: 5px;
     padding: 5px;
-    visibility: hidden;
 }
 
 .comment {
