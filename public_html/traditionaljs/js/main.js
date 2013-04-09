@@ -8,43 +8,50 @@
 
 $(document).ready(function(){
 
-    var items = new Array();
+    var items = new Content();
     
     $("#button").click(function(){
         var comment = $("textarea[name=insertItem]").val();
         var name = $("input[name=userItem]").val();
         if(comment !== "" && name!==""){
-            var newComment = new Item(items.length, name, comment);
-            newComment.render();
-            newComment.addToJSON();
-            items.push(newComment);
-            console.log(items.length);
+            var newComment = new Item(name, comment);
+            items.insertar(newComment);
+            var pos = items.tam();
+            if(pos>0){   
+                items.leer(pos).render();
+            }
             $("textarea[name=insertItem]").val("");
         }
     });
     
     $(document).on("click", ".close", function(){
-        $(this).parent().remove();
+        items.borrar(items.buscar(($(this).id).substring(($(this).id).length-2,($(this).id).length)));
     });
     
     $(document).bind('submit', function (event) {
         return false;
     });
     
-    $.getJSON("data/data.json", function(data){
-        for(var i=items.length; i<data.length; i++){
-            var aux = new Item(data[i].id, data[i].name, data[i].comment);
-            items.push(aux);
-        }
-    });
+/* =================================================
+ * Lectura desde JSON
+ */
+    $(function(){
+        var arrayItems = new Array();
 
-    // simulacion de que llegan comentarios
-    // aquí debería hacer las peticiones ajax para los comentarios nuevos
-    setInterval(function(){
-        var r = Math.random();
-        r = Math.floor(Math.random()*items.length);
-        items[r].render();
-    },3000);
+        $.getJSON("data/data.json", function(data){
+            for(var i=0; i<data.length; i++){
+                arrayItems.push(data[i]);
+            }
+        });
+
+        setInterval(function(){
+            var r = Math.random();
+            r = Math.floor(Math.random()*arrayItems.length);
+            var aux = new Item(arrayItems[r].name, arrayItems[r].comment); // esta línea se añade
+            items.insertar(aux);
+        },3000);
+
+    });
 });
 
 
@@ -53,22 +60,56 @@ $(document).ready(function(){
  */
 
 // CONSTRUCT
-function Item(id, name, comment){
+function Item(name, comment){
     this.name = name;
     this.coment = comment;
-    this.id = id;
+    this.id;
 }
 
-// METHOD OF ITEM
+// métodos
 Item.prototype.render = function(){
-    $(".list").prepend("<div id='item"+this.id+"' class='item'></div>");
+    $("#comment-list").prepend("<div id='item"+this.id+"' class='item'></div>");
     $("#item"+this.id).append("<div class='user'>Escrito por: "+this.name+"</div>");
     $("#item"+this.id).append("<div class='comment'>"+this.coment+"</div>");
     $("#item"+this.id).append("<button class='close'>&times;</button>");
     $("#item"+this.id).css('visibility','visible').hide().fadeIn('slow');
 };
-
-Item.prototype.addToJSON = function(){
-    //no la implemento por ahora
+Item.prototype.clear = function() {
+    $("#"+this.id).remove();
 };
 
+/* ===========================================================
+ * CLASS CONTENT
+ */
+function Content(){
+    this.array = new Array();
+}
+
+// métodos
+Content.prototype.insertar = function(dato) {
+    this.array.push(dato);
+    this.leer(this.array.length-1).render();
+};
+
+Content.prototype.leer = function(pos) {
+    if(pos>=0){
+        return this.array[pos];
+    } else {
+        return -1;
+    }
+};
+
+Content.prototype.borrar = function(pos) {
+    this.array[pos].clear();
+    this.array.splice(pos,1);
+};
+
+Content.prototype.buscar = function(id) {
+    var pos = 0;
+    // buscar id en el array
+    return pos;
+};
+
+Content.prototype.tam = function() {
+    return this.array.length;
+};

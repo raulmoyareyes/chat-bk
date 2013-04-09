@@ -1,5 +1,5 @@
-[{"id": "0","name": "Jose","comment": "Hola don pepito"},
- {"id": "1","name": "Pepito","comment": "Hola don Jose"},
- {"id": "2","name": "Jose","comment": "Pasó usted ya por casa"},
- {"id": "3","name": "Pepito","comment": "Por su casa yo pasé"},
- {"id": "4","name": "Jose","comment": "¿Vió usteda a mi abuela?"}]
+[{"name": "Jose","comment": "Hola don pepito"},
+ {"name": "Pepito","comment": "Hola don Jose"},
+ {"name": "Jose","comment": "Pasó usted ya por casa"},
+ {"name": "Pepito","comment": "Por su casa yo pasé"},
+ {"name": "Jose","comment": "¿Vió usteda a mi abuela?"}]

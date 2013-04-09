@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
     <head>
+        <meta charset="UTF-8"/>
         <title>ChatBK</title>
         <link rel="stylesheet" type="text/css" href="css/main.css"/>
     </head>
@@ -15,9 +16,8 @@
             <div id="button">Enviar</div>
             <br/>
             
-            <div id="footer">
-                <a id="clear-completed">No hay comentarios</a>
-                <div id="todo-count"></div>
+            <div id="all">
+                <div id="todo-count">No hay comentarios</div>
             </div>
             
             <div id="comment-list"></div>
@@ -41,7 +41,7 @@
         </script>
 
         <script type="text/template" id="stats-template">
-            <div class="todo-count">Numero de comentarios: <%= nComments %></div>
+            <div class="todo-count">Número de comentarios: <%= nComments %></div>
         </script>
 
     </body>
