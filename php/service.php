@@ -7,28 +7,32 @@ include './DBConnector.php';
 if (isset($_GET["id"])) {
 
     $id = htmlspecialchars($_GET["id"]);
-    $nombre = htmlspecialchars($_GET["nombre"]);
-    $comentario = htmlspecialchars($_GET["comentario"]);
+    $nombre = htmlspecialchars($_GET["user"]);
+    $comentario = htmlspecialchars($_GET["comment"]);
+    $date = htmlspecialchars($_GET["date"]);
 
-    insertarCometario($id, $nombre, $comentario);
+    insertarCometario($id, $date, $nombre, $comentario);
 } else {
-    print(json_encode(devolverComentarios()));
+    if(isset($_GET["date"])){
+        $date = htmlspecialchars($_GET["date"]);
+    }else{ $date = 0; }
+    print(json_encode(devolverComentarios($date)));
 }
 
-function insertarCometario($id, $nombre, $comentario) {
+function insertarCometario($id, $date, $nombre, $comentario) {
 
-    $query = "INSERT INTO cmchat (id,name,comment) VALUES (?,?,?)";
-    $data = array("iss", "{$id}","{$nombre}","{$comentario}");
+    $query = "INSERT INTO cmchat (id,date,name,comment) VALUES (?,?,?,?)";
+    $data = array("iiss", "{$id}","{$date}","{$nombre}","{$comentario}");
     $id_insert = DBConnector::execute($query, $data);
     
     return $id_insert;
 }
 
-function devolverComentarios() {
+function devolverComentarios($timestamp) {
 
-    $query = "SELECT name, comment FROM cmchat";
-    $data = 0;
-    $fields = array("Nombre" => "", "Comentario" => "");
+    $query = "SELECT name, comment FROM cmchat WHERE date>?";
+    $data = array("i","{$timestamp}");
+    $fields = array("name" => "", "comment" => "");
     $comments = DBConnector::execute($query, $data, $fields);
 
     return $comments;

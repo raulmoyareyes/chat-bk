@@ -8,11 +8,11 @@
  */
 
 
-$(document).ready(function(){
+$(document).ready(function() {
 
-/* =================================================
- * MODELO
- */
+    /* =================================================
+     * MODELO
+     */
     var Item = Backbone.Model.extend({
         default: function() {
             return {
@@ -21,15 +21,17 @@ $(document).ready(function(){
                 comment: "none"
             };
         },
-        validate: function(attributes){
-            if(attributes.name === ""){return "Nombre no válido";}
+        validate: function(attributes) {
+            if (attributes.name === "") {
+                return "Nombre no válido";
+            }
         }
     });
 
 
-/* =================================================
- * COLECCION
- */
+    /* =================================================
+     * COLECCION
+     */
     var CollectionItems = Backbone.Collection.extend({
         model: Item,
         nextId: function() {
@@ -37,15 +39,18 @@ $(document).ready(function(){
                 return 1;
             return this.last().get('id') + 1;
         },
+        lastId: function() {
+            return this.last().get('id');
+        },
         comparator: 'id'
     });
 
     var cItems = new CollectionItems;
 
 
-/* =================================================
- * VISTAS
- */
+    /* =================================================
+     * VISTAS
+     */
 
     // vista para cada comentario
     var Comment = Backbone.View.extend({
@@ -111,42 +116,48 @@ $(document).ready(function(){
             // Añado el evento para que al hacer click crear un comentario
             "click #button": "createComment"
         },
-        createComment: function(){
+        createComment: function() {
             // Añado items a la colección cada vez que hago click en button
-            
-            cItems.add({
-                name: this.$("#userItem").val().replace(/(<([^>]+)>)/ig,""), 
-                comment: this.$("#insertItem").val().replace(/(<([^>]+)>)/ig,"")
-            });
+            var user = this.$("#userItem").val().replace(/(<([^>]+)>)/ig, "");
+            var comment = this.$("#insertItem").val().replace(/(<([^>]+)>)/ig, "");
+//            cItems.add({
+//                name: user,
+//                comment: comment
+//            });
+            insertDB(cItems.lastId(), user, comment);
             this.$("#insertItem").val("");
         }
     });
 
-/* =================================================
- * Objeto de la vista principal para comenzar la app
- */
+    /* =================================================
+     * Objeto de la vista principal para comenzar la app
+     */
 
     var app = new AppView();
+    
+    var date = 0;
+    setInterval(function() {
+        date=readDB();
+    }, 3000);
 
+    /* =================================================
+     * Guardar y leer comentarios en DB
+     */
 
-/* =================================================
- * Lectura desde JSON
- */
-    $(function(){
-        var arrayItems = new Array();
+    function insertDB(id, user, comment) {
+        $.get("php/service.php?id=" + id + "&user=" + user + "&comment=" + comment + "&date=" + new Date().getTime(), 
+        function() {});
+        date=readDB();
+    }
 
-        $.getJSON("data/data.json", function(data){
-            for(var i=0; i<data.length; i++){
-                arrayItems.push(data[i]);
+    function readDB() {
+        $.getJSON("php/service.php?date=" + date, function(data) {
+            for (var i = 0; i < data.length; i++) {
+                cItems.add(data[i]);
             }
         });
+        return new Date().getTime();
+    }
 
-        setInterval(function(){
-            var r = Math.random();
-            r = Math.floor(Math.random()*arrayItems.length);
-            cItems.add(arrayItems[r]);
-        },3000);
-
-    });
 
 });
