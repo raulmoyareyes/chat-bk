@@ -17,7 +17,7 @@
 
 CREATE TABLE IF NOT EXISTS `cmchat` (
   `id` int(10) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date` int(20) NOT NULL DEFAULT 0,
   `name` varchar(20) DEFAULT 'Anonymous',
   `comment` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`,`date`)
